@@ -1,0 +1,12 @@
+{{ range $host, $containers := groupByMulti $ "Env.MUNIN_NODE" "," }}
+    {{ range $index, $value := $containers }}
+        {{ range $i, $address := $value.Addresses }}
+            {{ if eq $address.Port "4949" }}
+
+[{{$host}}]
+    address {{$address.IP}}
+
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
