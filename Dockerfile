@@ -14,7 +14,7 @@ RUN mkdir /var/run/munin && \
     chown -R munin /var/run/munin/
 
 # Run munin-cron every 5 minutes
-RUN echo "*/5 * * * * munin /usr/bin/munin-cron" >> /root/crontab
+RUN echo "*/5 * * * * munin /usr/bin/munin-cron" >> /etc/crontab
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY supervisord.conf /etc/supervisor/conf.d/
