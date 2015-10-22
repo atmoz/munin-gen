@@ -10,11 +10,8 @@ RUN wget https://github.com/jwilder/docker-gen/releases/download/$DOCKER_GEN_VER
     tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz && \
     rm /docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz
 
-RUN mkdir /var/run/munin && \
-    chown -R munin /var/run/munin/
-
-# Run munin-cron every 5 minutes
-RUN echo "*/5 * * * * munin /usr/bin/munin-cron" >> /etc/crontab
+RUN mkdir -p /var/run/munin /var/cache/munin/www && \
+    chown -R munin /var/run/munin/ /var/cache/munin/www
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY supervisord.conf /etc/supervisor/conf.d/
