@@ -6,7 +6,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ENV DOCKER_GEN_VERSION 0.4.1
-
 RUN wget https://github.com/jwilder/docker-gen/releases/download/$DOCKER_GEN_VERSION/docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz && \
     tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz && \
     rm /docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz
@@ -14,13 +13,8 @@ RUN wget https://github.com/jwilder/docker-gen/releases/download/$DOCKER_GEN_VER
 RUN mkdir /var/run/munin && \
     chown -R munin /var/run/munin/
 
-ENV DOCKER_HOST unix:///tmp/docker.sock
-
 # Run munin-cron every 5 minutes
 RUN echo "*/5 * * * * munin /usr/bin/munin-cron" >> /root/crontab
-
-
-RUN echo "\nhtmldir /usr/share/nginx/html\n" >> /etc/munin/munin.conf
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY supervisord.conf /etc/supervisor/conf.d/
